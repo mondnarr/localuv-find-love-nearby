@@ -18,6 +18,10 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				'sans': ['Inter', ...defaultTheme.fontFamily.sans],
+				'serif': ['Playfair Display', ...defaultTheme.fontFamily.serif]
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -61,6 +65,12 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				'localuv': {
+					primary: '#FF6B6B',
+					secondary: '#4ECDC4',
+					accent: '#FFD93D',
+					background: '#F9F5EB'
 				}
 			},
 			borderRadius: {
