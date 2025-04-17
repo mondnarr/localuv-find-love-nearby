@@ -1,13 +1,33 @@
 
 import { useState } from 'react';
-import { Search, MapPin, Filter } from 'lucide-react';
+import { Search, Filter } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import BusinessCard from '@/components/BusinessCard';
+import { DirectoryFilters } from '@/components/DirectoryFilters';
 import { mockBusinesses } from '@/lib/businessData';
 
 const Directory = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [filters, setFilters] = useState({
+    categories: [] as string[],
+    rating: 0,
+    distance: 5
+  });
+
+  const filteredBusinesses = mockBusinesses.filter(business => {
+    const matchesSearch = business.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      business.description.toLowerCase().includes(searchQuery.toLowerCase());
+    
+    const matchesCategories = filters.categories.length === 0 || 
+      filters.categories.includes(business.category);
+    
+    const matchesRating = business.rating >= filters.rating;
+    
+    const matchesDistance = business.distance <= filters.distance;
+
+    return matchesSearch && matchesCategories && matchesRating && matchesDistance;
+  });
 
   return (
     <div className="min-h-screen bg-localuv-background">
@@ -27,16 +47,18 @@ const Directory = () => {
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
-              <Button variant="outline" className="flex items-center gap-2">
-                <Filter className="h-4 w-4" />
-                Filters
-              </Button>
+              <DirectoryFilters onFiltersChange={setFilters} />
             </div>
+          </div>
+
+          {/* Results Count */}
+          <div className="text-sm text-gray-500">
+            Found {filteredBusinesses.length} businesses
           </div>
 
           {/* Business Listings */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {mockBusinesses.map((business) => (
+            {filteredBusinesses.map((business) => (
               <BusinessCard key={business.id} business={business} />
             ))}
           </div>
