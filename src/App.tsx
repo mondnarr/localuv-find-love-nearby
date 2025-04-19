@@ -10,6 +10,11 @@ import Directory from "./pages/Directory";
 import BusinessProfile from "./pages/BusinessProfile";
 import EventCalendar from "./pages/EventCalendar";
 import NotFound from "./pages/NotFound";
+import AboutUs from "./pages/AboutUs";
+import ContactUs from "./pages/ContactUs";
+import Marketplace from "./pages/Marketplace";
+import UserDashboard from "./pages/UserDashboard";
+import Blog from "./pages/Blog";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +30,11 @@ const App = () => (
           <Route path="/directory" element={<Directory />} />
           <Route path="/business/:id" element={<BusinessProfile />} />
           <Route path="/events" element={<EventCalendar />} />
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="/contact" element={<ContactUs />} />
+          <Route path="/marketplace" element={<Marketplace />} />
+          <Route path="/dashboard" element={<UserDashboard />} />
+          <Route path="/blog" element={<Blog />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
