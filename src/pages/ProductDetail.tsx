@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -47,7 +48,7 @@ const mockProduct = {
       user: 'Jane D.',
       rating: 5,
       date: '2023-03-15',
-      content: "I've bought several of these mugs as gifts and everyone loves them. Supporting local artisans is a bonus!"
+      content: "Beautiful mug! I love the design and colors. It feels great in the hand and keeps my coffee warm."
     },
     {
       id: '2',
@@ -95,7 +96,7 @@ const ProductDetail = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Product Images */}
           <div>
-            <div className="bg-white rounded-lg overflow-hidden h-96 mb-4">
+            <div className="bg-white rounded-lg overflow-hidden h-96 mb-4 dark:bg-gray-800">
               <img 
                 src={product.images[selectedImage]} 
                 alt={product.name} 
@@ -117,9 +118,9 @@ const ProductDetail = () => {
           
           {/* Product Details */}
           <div>
-            <div className="bg-white rounded-lg p-6">
+            <div className="bg-white rounded-lg p-6 dark:bg-gray-800">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm text-gray-500">{product.category}</span>
+                <span className="text-sm text-gray-500 dark:text-gray-400">{product.category}</span>
                 <div className="flex items-center">
                   <Star className="text-yellow-500 h-4 w-4" />
                   <span className="ml-1 text-sm">{product.rating} ({product.reviewCount} reviews)</span>
@@ -134,23 +135,23 @@ const ProductDetail = () => {
                 <span>From <a href={`/business/${product.vendor.id}`} className="text-localuv-secondary hover:underline">{product.vendor.name}</a></span>
               </div>
               
-              <p className="text-gray-700 mb-6">{product.description}</p>
+              <p className="text-gray-700 mb-6 dark:text-gray-300">{product.description}</p>
               
               <div className="flex flex-wrap gap-2 mb-6">
                 {product.tags.map(tag => (
-                  <span key={tag} className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-full">{tag}</span>
+                  <span key={tag} className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-full dark:bg-gray-700 dark:text-gray-300">{tag}</span>
                 ))}
               </div>
               
               <div className="flex items-center space-x-4 mb-6">
-                <div className="flex items-center border rounded-md">
+                <div className="flex items-center border rounded-md dark:border-gray-700">
                   <button 
                     className="px-3 py-1 text-xl"
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
                   >
                     -
                   </button>
-                  <span className="px-4 py-1 border-x">{quantity}</span>
+                  <span className="px-4 py-1 border-x dark:border-gray-700">{quantity}</span>
                   <button 
                     className="px-3 py-1 text-xl"
                     onClick={() => setQuantity(quantity + 1)}
@@ -189,11 +190,11 @@ const ProductDetail = () => {
               <TabsTrigger value="shipping">Shipping & Returns</TabsTrigger>
             </TabsList>
             
-            <TabsContent value="details" className="p-6 bg-white rounded-lg mt-2">
+            <TabsContent value="details" className="p-6 bg-white rounded-lg mt-2 dark:bg-gray-800">
               <h2 className="text-xl font-medium mb-4">Product Specifications</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-y-2 gap-x-6">
                 {product.specs.map(spec => (
-                  <div key={spec.name} className="flex justify-between border-b pb-2">
+                  <div key={spec.name} className="flex justify-between border-b pb-2 dark:border-gray-700">
                     <span className="font-medium">{spec.name}</span>
                     <span>{spec.value}</span>
                   </div>
@@ -201,7 +202,7 @@ const ProductDetail = () => {
               </div>
             </TabsContent>
             
-            <TabsContent value="reviews" className="p-6 bg-white rounded-lg mt-2">
+            <TabsContent value="reviews" className="p-6 bg-white rounded-lg mt-2 dark:bg-gray-800">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-xl font-medium">Customer Reviews</h2>
                 <Button>Write a Review</Button>
@@ -223,7 +224,7 @@ const ProductDetail = () => {
                           ))}
                         </div>
                       </div>
-                      <span className="text-sm text-gray-500">{review.date}</span>
+                      <span className="text-sm text-gray-500 dark:text-gray-400">{review.date}</span>
                     </div>
                     <p className="mt-3">{review.content}</p>
                   </CardContent>
@@ -231,7 +232,7 @@ const ProductDetail = () => {
               ))}
             </TabsContent>
             
-            <TabsContent value="shipping" className="p-6 bg-white rounded-lg mt-2">
+            <TabsContent value="shipping" className="p-6 bg-white rounded-lg mt-2 dark:bg-gray-800">
               <h2 className="text-xl font-medium mb-4">Shipping Information</h2>
               <div className="space-y-4">
                 <div>

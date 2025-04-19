@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Heart, ShoppingBag, Settings, Star, Clock } from 'lucide-react';
 import { mockBusinesses } from '@/lib/businessData';
+import WishlistTab from '@/components/WishlistTab';
 
 // Mock user data
 const mockUser = {
@@ -38,7 +39,7 @@ const UserDashboard = () => {
     <div className="min-h-screen bg-localuv-background">
       <div className="container mx-auto px-4 py-8">
         <h1 className="font-serif text-4xl mb-2">My Dashboard</h1>
-        <p className="text-gray-600 mb-8">Welcome back, {mockUser.name}</p>
+        <p className="text-gray-600 mb-8 dark:text-gray-400">Welcome back, {mockUser.name}</p>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {/* Left sidebar with user info */}
@@ -51,9 +52,9 @@ const UserDashboard = () => {
                 <div className="mb-4">
                   <div className="w-24 h-24 bg-gray-200 rounded-full mx-auto mb-4"></div>
                   <h2 className="text-xl font-medium text-center">{mockUser.name}</h2>
-                  <p className="text-gray-600 text-center">{mockUser.email}</p>
+                  <p className="text-gray-600 text-center dark:text-gray-400">{mockUser.email}</p>
                 </div>
-                <div className="text-sm text-gray-500">
+                <div className="text-sm text-gray-500 dark:text-gray-400">
                   <p>Member since: {mockUser.joined}</p>
                 </div>
               </CardContent>
@@ -67,6 +68,10 @@ const UserDashboard = () => {
                 <TabsTrigger value="orders" className="flex items-center">
                   <ShoppingBag className="mr-2 h-4 w-4" />
                   Orders
+                </TabsTrigger>
+                <TabsTrigger value="wishlist" className="flex items-center">
+                  <Heart className="mr-2 h-4 w-4" />
+                  Wishlist
                 </TabsTrigger>
                 <TabsTrigger value="favorites" className="flex items-center">
                   <Heart className="mr-2 h-4 w-4" />
@@ -95,29 +100,33 @@ const UserDashboard = () => {
                             <div className="flex justify-between items-start">
                               <div>
                                 <h3 className="font-medium">Order #{order.id}</h3>
-                                <div className="flex items-center text-sm text-gray-500 mt-1">
+                                <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mt-1">
                                   <Clock className="mr-1 h-4 w-4" />
                                   <span>{order.date}</span>
                                 </div>
                               </div>
                               <span className={`px-2 py-1 rounded text-xs ${
-                                order.status === 'Delivered' ? 'bg-green-100 text-green-800' : 
-                                'bg-blue-100 text-blue-800'
+                                order.status === 'Delivered' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 
+                                'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
                               }`}>
                                 {order.status}
                               </span>
                             </div>
                             <p className="mt-2">{order.business.name}</p>
-                            <p className="text-sm text-gray-600">{order.items.join(", ")}</p>
+                            <p className="text-sm text-gray-600 dark:text-gray-400">{order.items.join(", ")}</p>
                             <p className="font-bold mt-2">${order.total.toFixed(2)}</p>
                           </div>
                         ))}
                       </div>
                     ) : (
-                      <p className="text-gray-500">You haven't placed any orders yet.</p>
+                      <p className="text-gray-500 dark:text-gray-400">You haven't placed any orders yet.</p>
                     )}
                   </CardContent>
                 </Card>
+              </TabsContent>
+
+              <TabsContent value="wishlist">
+                <WishlistTab />
               </TabsContent>
 
               <TabsContent value="favorites">
@@ -139,13 +148,13 @@ const UserDashboard = () => {
                             </div>
                             <div className="p-4">
                               <h3 className="font-medium">{business.name}</h3>
-                              <p className="text-sm text-gray-600">{business.category}</p>
+                              <p className="text-sm text-gray-600 dark:text-gray-400">{business.category}</p>
                             </div>
                           </div>
                         ))}
                       </div>
                     ) : (
-                      <p className="text-gray-500">You haven't added any favorites yet.</p>
+                      <p className="text-gray-500 dark:text-gray-400">You haven't added any favorites yet.</p>
                     )}
                   </CardContent>
                 </Card>
@@ -157,7 +166,7 @@ const UserDashboard = () => {
                     <CardTitle>Your Reviews</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-gray-500">You haven't written any reviews yet.</p>
+                    <p className="text-gray-500 dark:text-gray-400">You haven't written any reviews yet.</p>
                   </CardContent>
                 </Card>
               </TabsContent>
@@ -168,15 +177,15 @@ const UserDashboard = () => {
                     <CardTitle>Account Settings</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-gray-500 mb-4">Manage your account settings and preferences.</p>
+                    <p className="text-gray-500 dark:text-gray-400 mb-4">Manage your account settings and preferences.</p>
                     <div className="space-y-4">
                       <div>
                         <h3 className="font-medium mb-2">Notifications</h3>
-                        <div className="flex items-center justify-between border-b py-2">
+                        <div className="flex items-center justify-between border-b py-2 dark:border-gray-700">
                           <span>Email notifications</span>
                           <input type="checkbox" className="toggle" defaultChecked />
                         </div>
-                        <div className="flex items-center justify-between border-b py-2">
+                        <div className="flex items-center justify-between border-b py-2 dark:border-gray-700">
                           <span>Order updates</span>
                           <input type="checkbox" className="toggle" defaultChecked />
                         </div>
