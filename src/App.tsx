@@ -7,6 +7,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navigation from "./components/Navigation";
 import Index from "./pages/Index";
 import Directory from "./pages/Directory";
+import BusinessProfile from "./pages/BusinessProfile";
+import EventCalendar from "./pages/EventCalendar";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -21,6 +23,8 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/directory" element={<Directory />} />
+          <Route path="/business/:id" element={<BusinessProfile />} />
+          <Route path="/events" element={<EventCalendar />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
