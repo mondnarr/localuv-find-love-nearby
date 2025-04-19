@@ -1,7 +1,10 @@
 
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Search, Calendar, User, Menu, X, ShoppingBag, MapPin, Heart, Book } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { 
+  Search, Calendar, User, Menu, X, ShoppingBag, 
+  MapPin, Heart, Book, LogOut, ShoppingCart, Store 
+} from 'lucide-react';
 import { Input } from './ui/input';
 import {
   NavigationMenu,
@@ -11,9 +14,39 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useToast } from "@/components/ui/use-toast";
+import { Button } from './ui/button';
+import { useAuth } from '@/contexts/AuthContext';
 
 const Navigation = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { user, signOut, loading } = useAuth();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      toast({
+        description: "You have been logged out.",
+      });
+      navigate('/');
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to sign out.",
+        variant: "destructive",
+      });
+    }
+  };
 
   return (
     <nav className="bg-white shadow-sm sticky top-0 z-10">
@@ -84,13 +117,85 @@ const Navigation = () => {
             <Link to="/contact" className="text-gray-600 hover:text-localuv-primary">
               Contact
             </Link>
-            <Link to="/dashboard" className="text-gray-600 hover:text-localuv-primary">
-              <User className="h-5 w-5" />
+            
+            <Link to="/cart" className="text-gray-600 hover:text-localuv-primary">
+              <ShoppingCart className="h-5 w-5" />
             </Link>
+
+            {!loading && (
+              <>
+                {user ? (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" size="icon">
+                        <User className="h-5 w-5" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem onClick={() => navigate('/dashboard')}>
+                        <User className="mr-2 h-4 w-4" />
+                        Dashboard
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => navigate('/vendor-dashboard')}>
+                        <Store className="mr-2 h-4 w-4" />
+                        Vendor Dashboard
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem onClick={handleSignOut}>
+                        <LogOut className="mr-2 h-4 w-4" />
+                        Log out
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                ) : (
+                  <Button variant="default" size="sm" onClick={() => navigate('/auth')}>
+                    Sign In
+                  </Button>
+                )}
+              </>
+            )}
           </div>
           
           {/* Mobile menu button */}
           <div className="md:hidden flex items-center">
+            <Link to="/cart" className="mr-2 text-gray-600">
+              <ShoppingCart className="h-5 w-5" />
+            </Link>
+            
+            {!loading && user && (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="mr-2">
+                    <User className="h-5 w-5" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={() => navigate('/dashboard')}>
+                    Dashboard
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate('/vendor-dashboard')}>
+                    Vendor Dashboard
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleSignOut}>
+                    Log out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
+            
+            {!loading && !user && (
+              <Button 
+                variant="default" 
+                size="sm" 
+                onClick={() => navigate('/auth')}
+                className="mr-2"
+              >
+                Sign In
+              </Button>
+            )}
+            
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="p-2 rounded-md text-gray-500 hover:text-localuv-primary focus:outline-none"
@@ -147,13 +252,33 @@ const Navigation = () => {
             >
               Contact
             </Link>
-            <Link 
-              to="/dashboard" 
-              className="block py-2 text-gray-600 hover:text-localuv-primary"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              My Account
-            </Link>
+            {!loading && user && (
+              <>
+                <Link 
+                  to="/dashboard" 
+                  className="block py-2 text-gray-600 hover:text-localuv-primary"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  My Account
+                </Link>
+                <Link 
+                  to="/vendor-dashboard" 
+                  className="block py-2 text-gray-600 hover:text-localuv-primary"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Vendor Dashboard
+                </Link>
+                <button 
+                  className="block py-2 text-gray-600 hover:text-localuv-primary w-full text-left"
+                  onClick={() => {
+                    handleSignOut();
+                    setMobileMenuOpen(false);
+                  }}
+                >
+                  Log Out
+                </button>
+              </>
+            )}
           </div>
         </div>
       )}
