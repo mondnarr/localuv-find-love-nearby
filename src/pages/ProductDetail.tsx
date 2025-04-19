@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -48,7 +47,7 @@ const mockProduct = {
       user: 'Jane D.',
       rating: 5,
       date: '2023-03-15',
-      content: 'Beautiful mug! I love the design and colors. It feels great in the hand and keeps my coffee warm.'
+      content: "I've bought several of these mugs as gifts and everyone loves them. Supporting local artisans is a bonus!"
     },
     {
       id: '2',
@@ -62,7 +61,7 @@ const mockProduct = {
       user: 'Sarah L.',
       rating: 5,
       date: '2023-02-10',
-      content: 'I've bought several of these mugs as gifts and everyone loves them. Supporting local artisans is a bonus!'
+      content: "I've bought several of these mugs as gifts and everyone loves them. Supporting local artisans is a bonus!"
     }
   ]
 };
