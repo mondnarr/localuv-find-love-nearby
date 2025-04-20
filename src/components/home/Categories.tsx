@@ -1,0 +1,34 @@
+
+import { Card, CardContent } from '@/components/ui/card';
+import { ShoppingBag, Star, MapPin, Users, Award } from 'lucide-react';
+
+const Categories = () => {
+  const categories = [
+    { name: 'Restaurants', count: 156, icon: ShoppingBag },
+    { name: 'Beauty & Spa', count: 89, icon: Star },
+    { name: 'Home Services', count: 134, icon: MapPin },
+    { name: 'Fitness', count: 67, icon: Users },
+    { name: 'Shopping', count: 245, icon: ShoppingBag },
+    { name: 'Entertainment', count: 78, icon: Award }
+  ];
+
+  return (
+    <section className="container mx-auto px-4 py-16">
+      <h2 className="font-serif text-3xl text-center mb-2 dark:text-white">Popular Categories</h2>
+      <p className="text-center text-muted-foreground mb-8">Explore businesses by category</p>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        {categories.map(category => (
+          <Card key={category.name} className="hover:shadow-lg transition-shadow cursor-pointer dark:bg-gray-800/50">
+            <CardContent className="p-6 text-center">
+              <category.icon className="w-8 h-8 mx-auto mb-3 text-localuv-primary" />
+              <h3 className="font-medium mb-1 dark:text-white">{category.name}</h3>
+              <span className="text-sm text-muted-foreground">{category.count} places</span>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </section>
+  );
+};
+
+export default Categories;
