@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { 
@@ -92,13 +91,6 @@ const Navigation = () => {
                         <div>
                           <div className="font-medium">Blog</div>
                           <div className="text-xs text-gray-500 dark:text-gray-400">News & insights</div>
-                        </div>
-                      </Link>
-                      <Link to="/compare-products" className="flex items-center space-x-2 p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800">
-                        <Compare className="h-4 w-4" />
-                        <div>
-                          <div className="font-medium">Compare</div>
-                          <div className="text-xs text-gray-500 dark:text-gray-400">Side-by-side comparison</div>
                         </div>
                       </Link>
                       <Link to="/help-center" className="flex items-center space-x-2 p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800">
@@ -262,13 +254,6 @@ const Navigation = () => {
               onClick={() => setMobileMenuOpen(false)}
             >
               Track Order
-            </Link>
-            <Link 
-              to="/compare-products" 
-              className="block py-2 text-gray-600 hover:text-localuv-primary dark:text-gray-300 dark:hover:text-white"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Compare Products
             </Link>
             <Link 
               to="/help-center" 
