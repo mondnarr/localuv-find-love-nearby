@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import { Moon, Sun } from 'lucide-react';
+import { Moon, Sun, Monitor } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -8,6 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { useToast } from '@/components/ui/use-toast';
 
 const DarkModeToggle = () => {
   const [theme, setTheme] = useState<'light' | 'dark' | 'system'>(() => {
@@ -26,6 +27,8 @@ const DarkModeToggle = () => {
     // Default to light
     return 'light';
   });
+
+  const { toast } = useToast();
 
   useEffect(() => {
     const root = window.document.documentElement;
@@ -58,6 +61,14 @@ const DarkModeToggle = () => {
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, [theme]);
 
+  const handleThemeChange = (newTheme: 'light' | 'dark' | 'system') => {
+    setTheme(newTheme);
+    toast({
+      description: `Theme changed to ${newTheme} mode`,
+      duration: 2000,
+    });
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -67,19 +78,26 @@ const DarkModeToggle = () => {
           <span className="sr-only">Toggle theme</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme('light')}>
+      <DropdownMenuContent align="end" className="dark:bg-gray-800 dark:border-gray-700">
+        <DropdownMenuItem 
+          onClick={() => handleThemeChange('light')}
+          className="dark:text-gray-200 dark:hover:bg-gray-700 cursor-pointer"
+        >
           <Sun className="h-4 w-4 mr-2" />
           Light
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme('dark')}>
+        <DropdownMenuItem 
+          onClick={() => handleThemeChange('dark')}
+          className="dark:text-gray-200 dark:hover:bg-gray-700 cursor-pointer"
+        >
           <Moon className="h-4 w-4 mr-2" />
           Dark
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme('system')}>
-          <span className="h-4 w-4 mr-2 inline-flex items-center justify-center">
-            <span className="block h-3 w-3 rounded-full bg-gradient-to-br from-[#ffdb4d] via-[#ffdb4d] to-[#171717]" />
-          </span>
+        <DropdownMenuItem 
+          onClick={() => handleThemeChange('system')}
+          className="dark:text-gray-200 dark:hover:bg-gray-700 cursor-pointer"
+        >
+          <Monitor className="h-4 w-4 mr-2" />
           System
         </DropdownMenuItem>
       </DropdownMenuContent>
