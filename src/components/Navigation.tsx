@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { 
   Search, Calendar, User, Menu, X, ShoppingBag, 
   MapPin, Heart, Book, LogOut, ShoppingCart, Store,
-  HelpCircle, Truck, ShoppingBasket, Compare
+  HelpCircle, Truck, ShoppingBasket
 } from 'lucide-react';
 import { Input } from './ui/input';
 import {

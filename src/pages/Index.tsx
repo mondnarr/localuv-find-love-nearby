@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { mockBusinesses } from '@/lib/businessData';
 import BusinessCard from '@/components/BusinessCard';
 import PromotionSlider from '@/components/PromotionSlider';
-import { Star, TrendingUp, Award, Users, MapPin, ShoppingBag } from 'lucide-react';
+import { Star, TrendingUp, Award, Users, MapPin, ShoppingBag, Heart, Shield, Coffee } from 'lucide-react';
 
 const Index = () => {
   // Get featured businesses (top rated)
@@ -44,10 +44,17 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-localuv-background">
+    <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <header className="relative bg-localuv-primary text-white py-24 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/90 to-purple-600/90 mix-blend-multiply" />
+      <header className="relative bg-gradient-to-r from-localuv-primary to-localuv-secondary text-white py-24 overflow-hidden">
+        <div className="absolute inset-0 bg-black/30" />
+        <div className="absolute inset-0">
+          <img 
+            src="https://images.unsplash.com/photo-1519999482648-25049ddd37b1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2676&q=80"
+            alt="City streets"
+            className="w-full h-full object-cover opacity-40"
+          />
+        </div>
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-2xl">
             <h1 className="font-serif text-5xl md:text-6xl mb-6 leading-tight">
@@ -68,17 +75,53 @@ const Index = () => {
         </div>
       </header>
 
+      {/* Benefits Section */}
+      <section className="py-16 bg-muted/50 dark:bg-gray-800/50">
+        <div className="container mx-auto px-4">
+          <h2 className="font-serif text-3xl text-center mb-12 dark:text-white">Why Choose LocaLuv?</h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            <Card className="bg-background/50 backdrop-blur-sm border-0 shadow-lg dark:bg-gray-800/50">
+              <CardContent className="p-6 text-center">
+                <div className="rounded-full bg-localuv-primary/10 p-3 w-12 h-12 mx-auto mb-4">
+                  <Heart className="w-6 h-6 text-localuv-primary" />
+                </div>
+                <h3 className="text-xl font-semibold mb-2 dark:text-white">Support Local</h3>
+                <p className="text-muted-foreground">Help your community thrive by supporting local businesses and entrepreneurs.</p>
+              </CardContent>
+            </Card>
+            <Card className="bg-background/50 backdrop-blur-sm border-0 shadow-lg dark:bg-gray-800/50">
+              <CardContent className="p-6 text-center">
+                <div className="rounded-full bg-localuv-primary/10 p-3 w-12 h-12 mx-auto mb-4">
+                  <Shield className="w-6 h-6 text-localuv-primary" />
+                </div>
+                <h3 className="text-xl font-semibold mb-2 dark:text-white">Trusted Platform</h3>
+                <p className="text-muted-foreground">Verified reviews and secure transactions for peace of mind.</p>
+              </CardContent>
+            </Card>
+            <Card className="bg-background/50 backdrop-blur-sm border-0 shadow-lg dark:bg-gray-800/50">
+              <CardContent className="p-6 text-center">
+                <div className="rounded-full bg-localuv-primary/10 p-3 w-12 h-12 mx-auto mb-4">
+                  <Coffee className="w-6 h-6 text-localuv-primary" />
+                </div>
+                <h3 className="text-xl font-semibold mb-2 dark:text-white">Unique Experiences</h3>
+                <p className="text-muted-foreground">Discover hidden gems and extraordinary local experiences.</p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
       {/* Categories Section */}
       <section className="container mx-auto px-4 py-16">
-        <h2 className="font-serif text-3xl text-center mb-2">Popular Categories</h2>
-        <p className="text-center text-gray-500 mb-8">Explore businesses by category</p>
+        <h2 className="font-serif text-3xl text-center mb-2 dark:text-white">Popular Categories</h2>
+        <p className="text-center text-muted-foreground mb-8">Explore businesses by category</p>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           {categories.map(category => (
-            <Card key={category.name} className="hover:shadow-lg transition-shadow cursor-pointer">
+            <Card key={category.name} className="hover:shadow-lg transition-shadow cursor-pointer dark:bg-gray-800/50">
               <CardContent className="p-6 text-center">
                 <category.icon className="w-8 h-8 mx-auto mb-3 text-localuv-primary" />
-                <h3 className="font-medium mb-1">{category.name}</h3>
-                <span className="text-sm text-gray-500">{category.count} places</span>
+                <h3 className="font-medium mb-1 dark:text-white">{category.name}</h3>
+                <span className="text-sm text-muted-foreground">{category.count} places</span>
               </CardContent>
             </Card>
           ))}
@@ -86,18 +129,18 @@ const Index = () => {
       </section>
       
       {/* Weekly Promotions Section */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-muted dark:bg-gray-800/50">
         <div className="container mx-auto px-4">
-          <h2 className="font-serif text-3xl text-center mb-2">Weekly Promotions</h2>
-          <p className="text-center text-gray-500 mb-8">Limited-time offers from local businesses</p>
+          <h2 className="font-serif text-3xl text-center mb-2 dark:text-white">Weekly Promotions</h2>
+          <p className="text-center text-muted-foreground mb-8">Limited-time offers from local businesses</p>
           <PromotionSlider promotions={weeklyPromotions} />
         </div>
       </section>
       
       {/* Featured Businesses Section */}
       <section className="container mx-auto px-4 py-16">
-        <h2 className="font-serif text-3xl text-center mb-2">Top-Rated Local Businesses</h2>
-        <p className="text-center text-gray-500 mb-8">Discover the highest-rated places in your area</p>
+        <h2 className="font-serif text-3xl text-center mb-2 dark:text-white">Top-Rated Local Businesses</h2>
+        <p className="text-center text-muted-foreground mb-8">Discover the highest-rated places in your area</p>
         <div className="grid md:grid-cols-3 gap-6">
           {featuredBusinesses.map(business => (
             <BusinessCard key={business.id} business={business} />
@@ -128,10 +171,28 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Newsletter Section */}
+      <section className="container mx-auto px-4 py-16">
+        <div className="max-w-3xl mx-auto text-center">
+          <h2 className="font-serif text-3xl mb-4 dark:text-white">Stay Updated with Local Happenings</h2>
+          <p className="text-muted-foreground mb-8">
+            Subscribe to our newsletter for the latest updates, exclusive offers, and community news.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <input
+              type="email"
+              placeholder="Enter your email"
+              className="px-4 py-2 border rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-white"
+            />
+            <Button>Subscribe Now</Button>
+          </div>
+        </div>
+      </section>
+
       {/* Call to Action Section */}
       <section className="container mx-auto px-4 py-16 text-center">
-        <h2 className="font-serif text-3xl mb-4">Ready to Join Our Community?</h2>
-        <p className="text-gray-600 max-w-2xl mx-auto mb-8">
+        <h2 className="font-serif text-3xl mb-4 dark:text-white">Ready to Join Our Community?</h2>
+        <p className="text-muted-foreground max-w-2xl mx-auto mb-8">
           Whether you're a local business owner or a customer looking to support local, 
           we're here to help you connect and thrive together.
         </p>
