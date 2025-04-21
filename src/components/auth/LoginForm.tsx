@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { LogIn, Mail, Lock } from 'lucide-react';
@@ -6,12 +5,9 @@ import { useToast } from '@/hooks/use-toast';
 import { supabase } from "@/integrations/supabase/client";
 import AuthInput from './AuthInput';
 import { useNavigate } from 'react-router-dom';
+import { AuthFormProps } from '@/types/auth';
 
-interface LoginFormProps {
-  onSwitchToSignup: () => void;
-}
-
-const LoginForm = ({ onSwitchToSignup }: LoginFormProps) => {
+const LoginForm = ({ onSwitchToSignup }: AuthFormProps) => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [email, setEmail] = useState('');

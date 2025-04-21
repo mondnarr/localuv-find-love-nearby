@@ -1,24 +1,14 @@
 
-import { Card, CardContent } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { LogIn, UserPlus } from 'lucide-react';
 import LoginForm from '@/components/auth/LoginForm';
 import SignupForm from '@/components/auth/SignupForm';
+import AuthTerms from '@/components/auth/AuthTerms';
+import { useAuthTabs } from '@/hooks/use-auth-tabs';
 
 const Auth = () => {
-  const switchToSignup = () => {
-    const signupTab = document.querySelector('[data-state="inactive"][value="signup"]') as HTMLElement;
-    if (signupTab) {
-      signupTab.click();
-    }
-  };
-  
-  const switchToLogin = () => {
-    const loginTab = document.querySelector('[data-state="inactive"][value="login"]') as HTMLElement;
-    if (loginTab) {
-      loginTab.click();
-    }
-  };
+  const { switchToSignup, switchToLogin } = useAuthTabs();
 
   return (
     <div className="min-h-screen bg-localuv-background dark:bg-gray-900 py-6 px-4 sm:py-12 sm:px-6 lg:px-8">
@@ -50,14 +40,7 @@ const Auth = () => {
             </TabsContent>
           </Tabs>
 
-          <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t dark:border-gray-700">
-            <p className="text-xs sm:text-sm text-center text-gray-600 dark:text-gray-400">
-              By continuing, you agree to LocaLuv's{' '}
-              <a href="#" className="text-localuv-primary hover:underline">Terms of Service</a>
-              {' '}and{' '}
-              <a href="#" className="text-localuv-primary hover:underline">Privacy Policy</a>
-            </p>
-          </div>
+          <AuthTerms />
         </Card>
       </div>
     </div>
