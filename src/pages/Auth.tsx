@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -95,15 +94,15 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen bg-localuv-background dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md mx-auto">
-        <Card className="p-8 dark:bg-gray-800 dark:border-gray-700">
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold dark:text-white">Welcome to LocaLuv</h1>
-            <p className="mt-2 text-gray-600 dark:text-gray-400">Connect with your local community</p>
+    <div className="min-h-screen bg-localuv-background dark:bg-gray-900 py-6 px-4 sm:py-12 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full mx-auto">
+        <Card className="p-4 sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+          <div className="text-center mb-6 sm:mb-8">
+            <h1 className="text-2xl sm:text-3xl font-bold dark:text-white">Welcome to LocaLuv</h1>
+            <p className="mt-2 text-sm sm:text-base text-gray-600 dark:text-gray-400">Connect with your local community</p>
           </div>
           
-          <Tabs defaultValue="login" className="space-y-6">
+          <Tabs defaultValue="login" className="space-y-4 sm:space-y-6">
             <TabsList className="grid grid-cols-2 w-full">
               <TabsTrigger value="login" className="flex items-center gap-2">
                 <LogIn className="h-4 w-4" />
@@ -246,8 +245,8 @@ const Auth = () => {
             </TabsContent>
           </Tabs>
 
-          <div className="mt-6 pt-6 border-t dark:border-gray-700">
-            <p className="text-sm text-center text-gray-600 dark:text-gray-400">
+          <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t dark:border-gray-700">
+            <p className="text-xs sm:text-sm text-center text-gray-600 dark:text-gray-400">
               By continuing, you agree to LocaLuv's{' '}
               <a href="#" className="text-localuv-primary hover:underline">Terms of Service</a>
               {' '}and{' '}

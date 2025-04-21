@@ -13,16 +13,16 @@ const Categories = () => {
   ];
 
   return (
-    <section className="container mx-auto px-4 py-16">
-      <h2 className="font-serif text-3xl text-center mb-2 dark:text-white">Popular Categories</h2>
-      <p className="text-center text-muted-foreground mb-8">Explore businesses by category</p>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+    <section className="container mx-auto px-4 py-12 sm:py-16">
+      <h2 className="font-serif text-2xl sm:text-3xl text-center mb-2 dark:text-white">Popular Categories</h2>
+      <p className="text-sm sm:text-base text-center text-muted-foreground mb-6 sm:mb-8">Explore businesses by category</p>
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
         {categories.map(category => (
           <Card key={category.name} className="hover:shadow-lg transition-shadow cursor-pointer dark:bg-gray-800/50">
-            <CardContent className="p-6 text-center">
-              <category.icon className="w-8 h-8 mx-auto mb-3 text-localuv-primary" />
-              <h3 className="font-medium mb-1 dark:text-white">{category.name}</h3>
-              <span className="text-sm text-muted-foreground">{category.count} places</span>
+            <CardContent className="p-4 sm:p-6 text-center">
+              <category.icon className="w-6 h-6 sm:w-8 sm:h-8 mx-auto mb-2 sm:mb-3 text-localuv-primary" />
+              <h3 className="text-sm sm:text-base font-medium mb-1 dark:text-white">{category.name}</h3>
+              <span className="text-xs sm:text-sm text-muted-foreground">{category.count} places</span>
             </CardContent>
           </Card>
         ))}
