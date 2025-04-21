@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/components/ui/use-toast';
 import { supabase } from "@/integrations/supabase/client";
 import { LogIn, UserPlus, Mail, Lock, User, ExternalLink } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -76,6 +77,20 @@ const Auth = () => {
       });
     } finally {
       setLoading(false);
+    }
+  };
+  
+  const switchToSignup = () => {
+    const signupTab = document.querySelector('[value="signup"]') as HTMLElement;
+    if (signupTab) {
+      signupTab.click();
+    }
+  };
+  
+  const switchToLogin = () => {
+    const loginTab = document.querySelector('[value="login"]') as HTMLElement;
+    if (loginTab) {
+      loginTab.click();
     }
   };
 
@@ -148,7 +163,7 @@ const Auth = () => {
                   Don't have an account?{' '}
                   <button 
                     type="button"
-                    onClick={() => document.querySelector('[value="signup"]')?.click()}
+                    onClick={switchToSignup}
                     className="text-localuv-primary hover:underline"
                   >
                     Sign up now
@@ -221,7 +236,7 @@ const Auth = () => {
                   Already have an account?{' '}
                   <button 
                     type="button"
-                    onClick={() => document.querySelector('[value="login"]')?.click()}
+                    onClick={switchToLogin}
                     className="text-localuv-primary hover:underline"
                   >
                     Login here
