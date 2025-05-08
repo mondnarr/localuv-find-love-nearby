@@ -4,6 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Plus, Search, Edit } from 'lucide-react';
+import { DataTable } from '@/components/ui/data-table';
+import { StatusBadge } from '@/components/ui/status-badge';
 
 interface Product {
   id: string;
@@ -48,6 +50,37 @@ const ProductsTab = () => {
     product.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const columns = [
+    {
+      header: "Product Name",
+      accessor: "name"
+    },
+    {
+      header: "Price",
+      accessor: (product: Product) => `$${product.price.toFixed(2)}`
+    },
+    {
+      header: "Inventory",
+      accessor: "inventory"
+    },
+    {
+      header: "Category",
+      accessor: "category"
+    },
+    {
+      header: "Status",
+      cell: (product: Product) => <StatusBadge status={product.status} />
+    },
+    {
+      header: "Actions",
+      cell: () => (
+        <Button variant="ghost" size="sm">
+          <Edit className="h-4 w-4" />
+        </Button>
+      )
+    }
+  ];
+
   return (
     <Card>
       <CardHeader className="flex flex-row justify-between items-center">
@@ -69,44 +102,7 @@ const ProductsTab = () => {
           />
         </div>
         
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="border-b">
-                <th className="text-left py-3 px-4">Product Name</th>
-                <th className="text-left py-3 px-4">Price</th>
-                <th className="text-left py-3 px-4">Inventory</th>
-                <th className="text-left py-3 px-4">Category</th>
-                <th className="text-left py-3 px-4">Status</th>
-                <th className="text-left py-3 px-4">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredProducts.map(product => (
-                <tr key={product.id} className="border-b hover:bg-gray-50">
-                  <td className="py-3 px-4">{product.name}</td>
-                  <td className="py-3 px-4">${product.price.toFixed(2)}</td>
-                  <td className="py-3 px-4">{product.inventory}</td>
-                  <td className="py-3 px-4">{product.category}</td>
-                  <td className="py-3 px-4">
-                    <span className={`px-2 py-1 rounded text-xs ${
-                      product.status === 'active' ? 'bg-green-100 text-green-800' : 
-                      product.status === 'low-stock' ? 'bg-yellow-100 text-yellow-800' : 
-                      'bg-red-100 text-red-800'
-                    }`}>
-                      {product.status}
-                    </span>
-                  </td>
-                  <td className="py-3 px-4">
-                    <Button variant="ghost" size="sm">
-                      <Edit className="h-4 w-4" />
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <DataTable columns={columns} data={filteredProducts} />
       </CardContent>
     </Card>
   );

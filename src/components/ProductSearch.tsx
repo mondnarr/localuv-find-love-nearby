@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useProductSearch } from '@/hooks/useProductSearch';
 import { Product } from '@/types/product';
 import { Input } from '@/components/ui/input';
@@ -27,8 +27,10 @@ const ProductSearch = ({ products, onProductsFiltered }: ProductSearchProps) => 
   } = useProductSearch({ products });
   
   // Notify parent component when filtered products change
-  useState(() => {
-    onProductsFiltered?.(filteredProducts);
+  useEffect(() => {
+    if (onProductsFiltered) {
+      onProductsFiltered(filteredProducts);
+    }
   }, [filteredProducts, onProductsFiltered]);
   
   // Handle price range change
