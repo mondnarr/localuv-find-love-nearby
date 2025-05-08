@@ -1,7 +1,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from '@/components/ui/button';
-import { DataTable } from '@/components/ui/data-table';
+import { DataTable, Column } from '@/components/ui/data-table';
 import { StatusBadge } from '@/components/ui/status-badge';
 
 interface Order {
@@ -41,7 +41,7 @@ const mockOrders = [
 ];
 
 const OrdersTab = () => {
-  const columns = [
+  const columns: Column<Order>[] = [
     {
       header: "Order ID",
       accessor: "id"
@@ -66,7 +66,7 @@ const OrdersTab = () => {
     },
     {
       header: "Total",
-      accessor: (order: Order) => `$${order.total.toFixed(2)}`
+      accessor: (order: Order) => `$${order.total.toFixed(2)}` as React.ReactNode
     },
     {
       header: "Status",

@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Plus, Search, Edit } from 'lucide-react';
-import { DataTable } from '@/components/ui/data-table';
+import { DataTable, Column } from '@/components/ui/data-table';
 import { StatusBadge } from '@/components/ui/status-badge';
 
 interface Product {
@@ -50,14 +50,14 @@ const ProductsTab = () => {
     product.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const columns = [
+  const columns: Column<Product>[] = [
     {
       header: "Product Name",
       accessor: "name"
     },
     {
       header: "Price",
-      accessor: (product: Product) => `$${product.price.toFixed(2)}`
+      accessor: (product: Product) => `$${product.price.toFixed(2)}` as React.ReactNode
     },
     {
       header: "Inventory",

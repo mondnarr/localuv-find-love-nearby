@@ -1,50 +1,16 @@
 
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Trash2, ArrowRight, CreditCard, Shield, Truck, Package } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
-
-// Mock cart items
-const mockCartItems = [
-  {
-    id: '1',
-    name: 'Handcrafted Coffee Mug',
-    price: 24.99,
-    quantity: 2,
-    image: 'https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80',
-    vendor: 'Vintage Finds'
-  },
-  {
-    id: '3',
-    name: 'Local Honey 8oz',
-    price: 12.00,
-    quantity: 1,
-    image: 'https://images.unsplash.com/photo-1587049352851-8d4b89133611?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80',
-    vendor: 'Fresh Market Grocery'
-  }
-];
+import { useCart } from '@/contexts/CartContext';
+import { useState } from 'react';
 
 const ShoppingCart = () => {
-  const [cartItems, setCartItems] = useState(mockCartItems);
+  const { cartItems, removeFromCart, updateQuantity } = useCart();
   const [promoCode, setPromoCode] = useState('');
   const { toast } = useToast();
-
-  const handleQuantityChange = (id: string, newQuantity: number) => {
-    if (newQuantity < 1) return;
-    
-    setCartItems(cartItems.map(item => 
-      item.id === id ? { ...item, quantity: newQuantity } : item
-    ));
-  };
-
-  const handleRemoveItem = (id: string) => {
-    setCartItems(cartItems.filter(item => item.id !== id));
-    toast({
-      description: "Item removed from cart",
-    });
-  };
 
   const handleApplyPromo = () => {
     if (!promoCode) return;
@@ -101,14 +67,14 @@ const ShoppingCart = () => {
                         <div className="flex items-center border rounded-md dark:border-gray-600">
                           <button 
                             className="px-3 py-1 dark:text-white"
-                            onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
+                            onClick={() => updateQuantity(item.id, item.quantity - 1)}
                           >
                             -
                           </button>
                           <span className="px-4 py-1 border-x dark:border-gray-600 dark:text-white">{item.quantity}</span>
                           <button 
                             className="px-3 py-1 dark:text-white"
-                            onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
+                            onClick={() => updateQuantity(item.id, item.quantity + 1)}
                           >
                             +
                           </button>
@@ -116,7 +82,7 @@ const ShoppingCart = () => {
                         
                         <button 
                           className="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 flex items-center"
-                          onClick={() => handleRemoveItem(item.id)}
+                          onClick={() => removeFromCart(item.id)}
                         >
                           <Trash2 className="h-4 w-4 mr-1" />
                           <span>Remove</span>

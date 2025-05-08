@@ -1,9 +1,10 @@
+
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { 
   Search, Calendar, User, Menu, X, ShoppingBag, 
   MapPin, Heart, Book, LogOut, ShoppingCart, Store,
-  HelpCircle, Truck, ShoppingBasket
+  HelpCircle
 } from 'lucide-react';
 import { Input } from './ui/input';
 import {
@@ -25,13 +26,17 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { Button } from './ui/button';
 import { useAuth } from '@/contexts/AuthContext';
+import { useCart } from '@/contexts/CartContext';
 import DarkModeToggle from './DarkModeToggle';
 
 const Navigation = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user, signOut, loading } = useAuth();
+  const { getCartCount } = useCart();
   const navigate = useNavigate();
   const { toast } = useToast();
+
+  const cartItemCount = getCartCount();
 
   const handleSignOut = async () => {
     try {
@@ -119,13 +124,14 @@ const Navigation = () => {
             <Link to="/blog" className="text-gray-600 hover:text-localuv-primary dark:text-gray-300 dark:hover:text-white">
               Blog
             </Link>
-            <Link to="/track-order" className="text-gray-600 hover:text-localuv-primary dark:text-gray-300 dark:hover:text-white flex items-center">
-              <Truck className="h-4 w-4 mr-1" />
-              Track Order
-            </Link>
             
-            <Link to="/cart" className="text-gray-600 hover:text-localuv-primary dark:text-gray-300 dark:hover:text-white">
+            <Link to="/cart" className="text-gray-600 hover:text-localuv-primary dark:text-gray-300 dark:hover:text-white relative">
               <ShoppingCart className="h-5 w-5" />
+              {cartItemCount > 0 && (
+                <span className="absolute -top-2 -right-2 bg-localuv-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                  {cartItemCount}
+                </span>
+              )}
             </Link>
 
             <DarkModeToggle />
@@ -168,8 +174,13 @@ const Navigation = () => {
           
           {/* Mobile menu button */}
           <div className="md:hidden flex items-center">
-            <Link to="/cart" className="mr-2 text-gray-600 dark:text-gray-300">
+            <Link to="/cart" className="mr-2 text-gray-600 dark:text-gray-300 relative">
               <ShoppingCart className="h-5 w-5" />
+              {cartItemCount > 0 && (
+                <span className="absolute -top-2 -right-2 bg-localuv-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                  {cartItemCount}
+                </span>
+              )}
             </Link>
             
             <DarkModeToggle />
@@ -247,13 +258,6 @@ const Navigation = () => {
               onClick={() => setMobileMenuOpen(false)}
             >
               Blog
-            </Link>
-            <Link 
-              to="/track-order" 
-              className="block py-2 text-gray-600 hover:text-localuv-primary dark:text-gray-300 dark:hover:text-white"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Track Order
             </Link>
             <Link 
               to="/help-center" 

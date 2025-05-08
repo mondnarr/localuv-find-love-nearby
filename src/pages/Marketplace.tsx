@@ -1,9 +1,12 @@
+
 import { useState } from 'react';
 import { Search, Filter, Tags, ShoppingBag, Star, MapPin, Package, Heart, Eye } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { useToast } from '@/components/ui/use-toast';
+import { useCart } from '@/contexts/CartContext';
 import { mockBusinesses } from '@/lib/businessData';
 
 const generateMockProducts = () => {
@@ -22,6 +25,8 @@ const generateMockProducts = () => {
         businessId: business.id,
         businessName: business.name,
         category: business.category,
+        reviewCount: Math.floor(Math.random() * 100),
+        rating: Math.floor(Math.random() * 5) + 1,
       });
     }
   }
@@ -35,6 +40,8 @@ const Marketplace = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const { addToCart } = useCart();
+  const { toast } = useToast();
   
   const categories = Array.from(new Set(mockProducts.map(product => product.category)));
   
@@ -46,6 +53,16 @@ const Marketplace = () => {
     
     return matchesSearch && matchesCategory;
   });
+
+  const handleAddToCart = (product: any) => {
+    addToCart({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.imageUrl,
+      vendor: product.businessName,
+    });
+  };
 
   return (
     <div className="min-h-screen bg-background dark:bg-gray-900">
@@ -203,7 +220,11 @@ const Marketplace = () => {
                     )}
                     <div className="flex items-center justify-between mt-2">
                       <p className="text-lg font-bold dark:text-white">${product.price}</p>
-                      <Button size="sm" className="dark:bg-localuv-primary dark:text-white">
+                      <Button 
+                        size="sm" 
+                        className="dark:bg-localuv-primary dark:text-white"
+                        onClick={() => handleAddToCart(product)}
+                      >
                         <ShoppingBag className="h-4 w-4 mr-1" />
                         Add to Cart
                       </Button>
@@ -213,14 +234,14 @@ const Marketplace = () => {
                         <Star
                           key={star}
                           className={`h-4 w-4 ${
-                            star <= Math.floor(Math.random() * 5 + 1)
+                            star <= (product.rating || 0)
                               ? 'text-yellow-400 fill-current'
                               : 'text-gray-300 dark:text-gray-600'
                           }`}
                         />
                       ))}
                       <span className="ml-1 text-sm text-gray-600 dark:text-gray-400">
-                        {Math.floor(Math.random() * 100)} reviews
+                        {product.reviewCount} reviews
                       </span>
                     </div>
                   </div>

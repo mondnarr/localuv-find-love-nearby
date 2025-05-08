@@ -2,28 +2,38 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { ShoppingCart, Heart, Share2 } from 'lucide-react';
-import { useToast } from '@/components/ui/use-toast';
+import { useCart } from '@/contexts/CartContext';
 
 interface ProductActionsProps {
   productName: string;
+  productId: string;
+  productPrice: number;
+  productImage: string;
+  vendorName: string;
 }
 
-const ProductActions = ({ productName }: ProductActionsProps) => {
+const ProductActions = ({ productName, productId, productPrice, productImage, vendorName }: ProductActionsProps) => {
   const [quantity, setQuantity] = useState(1);
-  const { toast } = useToast();
+  const { addToCart } = useCart();
 
   const handleAddToCart = () => {
-    toast({
-      title: "Added to cart!",
-      description: `${quantity} x ${productName} added to your cart.`
-    });
+    // Add item to cart
+    const item = {
+      id: productId,
+      name: productName,
+      price: productPrice,
+      image: productImage,
+      vendor: vendorName,
+    };
+    
+    // Add the item to cart the specified number of times
+    for (let i = 0; i < quantity; i++) {
+      addToCart(item);
+    }
   };
   
   const handleAddToWishlist = () => {
-    toast({
-      title: "Added to wishlist!",
-      description: `${productName} saved to your wishlist.`
-    });
+    // Functionality for wishlist can be added later
   };
 
   return (
