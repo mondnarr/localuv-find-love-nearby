@@ -1,135 +1,201 @@
 
-import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useState } from 'react';
+import { ChevronRight, Heart, ShoppingBag, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
+import { useToast } from '@/components/ui/use-toast';
+import { useCart } from '@/contexts/CartContext';
 import ProductGallery from '@/components/product/ProductGallery';
 import ProductHeader from '@/components/product/ProductHeader';
 import ProductActions from '@/components/product/ProductActions';
 import ProductTabs from '@/components/product/ProductTabs';
-import { mockBusinesses } from '@/lib/businessData';
-
-// Generate a mock product for the demo
-const getMockProduct = (id: string) => {
-  const business = mockBusinesses[Math.floor(Math.random() * mockBusinesses.length)];
-  
-  return {
-    id,
-    name: `${business.name} Signature Product`,
-    description: `This is a premium product from ${business.name}, one of the top-rated local businesses in our community. Made with the finest materials and crafted with attention to detail.`,
-    price: Math.floor(Math.random() * 100) + 20,
-    images: Array(4).fill(business.imageUrl),
-    category: business.category,
-    vendor: {
-      id: business.id,
-      name: business.name,
-      rating: business.rating
-    },
-    rating: (Math.random() * 2 + 3).toFixed(1),
-    reviewCount: Math.floor(Math.random() * 100) + 5,
-    specs: [
-      { label: "Material", value: "Premium" },
-      { label: "Dimensions", value: "10 x 8 x 2 inches" },
-      { label: "Weight", value: "1.2 lbs" },
-      { label: "Origin", value: "Locally Made" }
-    ],
-    reviews: [
-      { 
-        id: "1",
-        user: "Alex Johnson",
-        date: "March 15, 2023",
-        rating: 5,
-        comment: "Absolutely love this product! It exceeded my expectations in every way."
-      },
-      { 
-        id: "2",
-        user: "Sam Thompson",
-        date: "February 28, 2023", 
-        rating: 4,
-        comment: "Great quality and fast shipping. Would buy again."
-      }
-    ]
-  };
-};
+import Footer from '@/components/Footer';
 
 const ProductDetail = () => {
-  const { id } = useParams<{ id: string }>();
-  const product = getMockProduct(id || 'default-id');
+  const [quantity, setQuantity] = useState(1);
+  const { addToCart } = useCart();
+  const { toast } = useToast();
+
+  // Mock product data
+  const product = {
+    id: 'prod-12345',
+    name: 'Handcrafted Ceramic Mug',
+    description: 'A beautiful handcrafted ceramic mug made by local artisans. Each piece is unique with subtle variations in glaze and form.',
+    longDescription: `
+      <p>This beautiful ceramic mug is handcrafted by skilled local artisans using traditional techniques passed down through generations.</p>
+      <p>Each piece is carefully formed, glazed, and fired to create a unique item that combines functionality with artistic expression.</p>
+      <p>The ergonomic handle and balanced weight make it comfortable to use, while the durable finish ensures it will last for years to come.</p>
+      <h3>Features:</h3>
+      <ul>
+        <li>Handcrafted from locally-sourced clay</li>
+        <li>Food-safe, lead-free glaze</li>
+        <li>Microwave and dishwasher safe</li>
+        <li>Capacity: 12 oz</li>
+        <li>Dimensions: 4" height x 3.5" diameter</li>
+      </ul>
+    `,
+    price: 28.00,
+    originalPrice: 35.00,
+    discount: 20,
+    inventory: 15,
+    imageUrl: 'https://images.unsplash.com/photo-1577566346886-6016b26913c8?auto=format&fit=crop&q=80&w=600',
+    images: [
+      'https://images.unsplash.com/photo-1577566346886-6016b26913c8?auto=format&fit=crop&q=80&w=600',
+      'https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?auto=format&fit=crop&q=80&w=600',
+      'https://images.unsplash.com/photo-1565193566173-7a0ee3a2615e?auto=format&fit=crop&q=80&w=600',
+      'https://images.unsplash.com/photo-1578079876614-31d6a96266d9?auto=format&fit=crop&q=80&w=600'
+    ],
+    businessId: 'business-789',
+    businessName: 'Clay & Fire Pottery',
+    businessLogo: 'https://images.unsplash.com/photo-1565193566173-7a0ee3a2615e?auto=format&fit=crop&q=80&w=100',
+    businessDescription: 'Handcrafted ceramics made with love in our local studio.',
+    businessLocation: 'Portland, OR',
+    category: 'Home Goods',
+    tags: ['ceramic', 'handcrafted', 'kitchenware'],
+    color: 'Blue',
+    material: 'Ceramic',
+    reviewCount: 24,
+    rating: 4.7,
+    isLocalPickupAvailable: true,
+    isShippingAvailable: true,
+    shippingInfo: 'Free shipping on orders over $50',
+    estimatedDelivery: '3-5 business days',
+    isFavorited: false,
+  };
+
+  // Fixed type specifications for these arrays
+  const specifications = [
+    { name: 'Material', value: 'Ceramic' },
+    { name: 'Dimensions', value: '4" x 3.5"' },
+    { name: 'Weight', value: '12 oz' },
+    { name: 'Color', value: 'Blue' },
+    { name: 'Care', value: 'Dishwasher safe' }
+  ];
   
+  const reviews = [
+    { 
+      id: '1', 
+      user: 'Sarah L.', 
+      rating: 5, 
+      date: '2023-09-10', 
+      content: 'Beautiful mug that keeps my coffee hot for a long time. The craftsmanship is excellent!' 
+    },
+    { 
+      id: '2', 
+      user: 'Michael T.', 
+      rating: 4, 
+      date: '2023-08-22', 
+      content: 'Love the design and feel of this mug. The only reason for 4 stars is that the handle is a bit small for my hands.' 
+    },
+    { 
+      id: '3', 
+      user: 'Alex R.', 
+      rating: 5, 
+      date: '2023-07-15', 
+      content: 'This is now my favorite mug. The glaze is beautiful and it feels substantial in the hand.' 
+    }
+  ];
+
+  const handleAddToCart = () => {
+    addToCart({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      imageUrl: product.imageUrl,
+      quantity: quantity,
+      businessName: product.businessName
+    });
+    
+    toast({
+      title: "Added to cart!",
+      description: `${quantity} × ${product.name} has been added to your cart.`,
+    });
+  };
+
+  const handleFavorite = () => {
+    toast({
+      description: "Added to your wishlist!",
+    });
+  };
+
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* Product Gallery */}
-        <div>
-          <ProductGallery 
-            images={product.images} 
-            productName={product.name} 
-          />
+    <div className="min-h-screen bg-background dark:bg-gray-900">
+      <div className="container mx-auto px-4 py-8">
+        {/* Breadcrumbs */}
+        <nav className="flex mb-6 text-sm text-gray-500 dark:text-gray-400">
+          <a href="/" className="hover:text-gray-700 dark:hover:text-gray-200">Home</a>
+          <ChevronRight className="h-4 w-4 mx-2" />
+          <a href="/marketplace" className="hover:text-gray-700 dark:hover:text-gray-200">Marketplace</a>
+          <ChevronRight className="h-4 w-4 mx-2" />
+          <a href={`/category/${product.category}`} className="hover:text-gray-700 dark:hover:text-gray-200">{product.category}</a>
+          <ChevronRight className="h-4 w-4 mx-2" />
+          <span className="text-gray-900 dark:text-white font-medium">{product.name}</span>
+        </nav>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+          {/* Product Gallery */}
+          <ProductGallery images={product.images} />
+
+          {/* Product Info */}
+          <div className="space-y-6">
+            <ProductHeader 
+              name={product.name}
+              businessName={product.businessName}
+              businessLogo={product.businessLogo}
+              rating={product.rating}
+              reviewCount={product.reviewCount}
+              price={product.price}
+              originalPrice={product.originalPrice}
+              discount={product.discount}
+            />
+            
+            <p className="text-gray-600 dark:text-gray-300">{product.description}</p>
+            
+            <div className="flex flex-wrap gap-2">
+              {product.tags.map(tag => (
+                <Badge key={tag} variant="outline" className="bg-gray-100 dark:bg-gray-800 hover:bg-gray-200">
+                  {tag}
+                </Badge>
+              ))}
+            </div>
+            
+            <Separator />
+            
+            <ProductActions 
+              quantity={quantity}
+              setQuantity={setQuantity}
+              inventory={product.inventory}
+              onAddToCart={handleAddToCart}
+              onFavorite={handleFavorite}
+              isLocalPickupAvailable={product.isLocalPickupAvailable}
+              isShippingAvailable={product.isShippingAvailable}
+              estimatedDelivery={product.estimatedDelivery}
+              shippingInfo={product.shippingInfo}
+            />
+          </div>
         </div>
         
-        {/* Product Info */}
-        <div>
-          <ProductHeader 
-            category={product.category}
-            name={product.name}
-            price={product.price}
-            rating={parseFloat(product.rating)}
-            reviewCount={product.reviewCount}
-            vendorId={product.vendor.id}
-            vendorName={product.vendor.name}
-          />
-          
-          <div className="border-t border-b py-4 my-4 dark:border-gray-700">
-            <p className="text-gray-600 dark:text-gray-400">
-              {product.description}
-            </p>
-          </div>
-          
-          <ProductActions 
-            productId={product.id}
-            productName={product.name}
-            productPrice={product.price}
-            productImage={product.images[0]}
-            vendorName={product.vendor.name}
-          />
-        </div>
-      </div>
-      
-      {/* Product Details Tabs */}
-      <div className="mt-12">
         <ProductTabs 
-          specs={product.specs}
-          reviews={product.reviews}
+          description={product.longDescription}
+          specifications={specifications}
+          reviews={reviews}
+          businessDescription={product.businessDescription}
+          businessName={product.businessName}
+          businessLocation={product.businessLocation}
         />
-      </div>
-      
-      {/* Related Products */}
-      <div className="mt-16">
-        <h2 className="font-serif text-2xl mb-6 dark:text-white">You may also like</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {Array(4).fill(null).map((_, i) => {
-            const relatedBusiness = mockBusinesses[Math.floor(Math.random() * mockBusinesses.length)];
-            return (
-              <Card key={i} className="overflow-hidden dark:bg-gray-800 dark:border-gray-700">
-                <img 
-                  src={relatedBusiness.imageUrl} 
-                  alt={relatedBusiness.name}
-                  className="h-48 w-full object-cover"
-                />
-                <div className="p-4">
-                  <h3 className="font-medium dark:text-white">{relatedBusiness.name} Product</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">{relatedBusiness.name}</p>
-                  <div className="flex items-center justify-between">
-                    <p className="font-bold">${Math.floor(Math.random() * 50) + 10}</p>
-                    <Button size="sm">View</Button>
-                  </div>
-                </div>
-              </Card>
-            );
-          })}
+        
+        {/* Related Products */}
+        <div className="mt-16">
+          <h2 className="text-2xl font-bold mb-6 dark:text-white">You might also like</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {/* Related product cards would go here */}
+          </div>
         </div>
       </div>
+      
+      <Footer />
     </div>
   );
 };

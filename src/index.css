@@ -64,6 +64,11 @@
   }
   body {
     @apply bg-background text-foreground;
+    scroll-behavior: smooth;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-medium tracking-tight;
   }
 }
 
@@ -86,5 +91,21 @@
 
   .highlight-text {
     @apply text-localuv-primary dark:text-localuv-secondary;
+  }
+  
+  .animated-card {
+    @apply transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1;
+  }
+  
+  .gradient-heading {
+    @apply bg-gradient-to-r from-localuv-primary to-localuv-secondary bg-clip-text text-transparent;
+  }
+  
+  .hover-scale {
+    @apply transition-transform duration-300 hover:scale-105;
+  }
+  
+  .underline-animation {
+    @apply relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-localuv-primary after:transition-all after:duration-300 hover:after:w-full;
   }
 }
