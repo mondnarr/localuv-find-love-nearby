@@ -56,6 +56,7 @@ const OrdersTab = () => {
     },
     {
       header: "Items",
+      accessor: row => "", // Dummy accessor to satisfy the type
       cell: (order: Order) => (
         <ul className="list-disc ml-4">
           {order.items.map((item, index) => (
@@ -70,10 +71,12 @@ const OrdersTab = () => {
     },
     {
       header: "Status",
+      accessor: "status", // Adding accessor to satisfy the type
       cell: (order: Order) => <StatusBadge status={order.status} />
     },
     {
       header: "Actions",
+      accessor: row => "", // Dummy accessor to satisfy the type
       cell: () => (
         <Button variant="ghost" size="sm">
           Details
